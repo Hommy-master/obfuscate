@@ -1,7 +1,7 @@
 # 安装依赖
 ```
-# npm install -g javascript-obfuscator
 npm install javascript-obfuscator
+npm install node-html-parser css
 ```
 
 # 运行
