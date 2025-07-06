@@ -1,14 +1,13 @@
 # 安装依赖
 
 ```
-npm install javascript-obfuscator
-npm install node-html-parser css
+pnpm install
 ```
 
 # 运行
 
 ```
-node ./obfuscate.js ./demo
+node ./bin/obfuscate.js ./demo
 ```
 
 # 要求
@@ -18,4 +17,10 @@ node ./obfuscate.js ./demo
 2. 增加垃圾代码 + 30%
 3. 代码结构混淆
 4. 代码对比，相似度低于10%
+```
+
+# 注意
+
+```
+类名、ID名暂屏蔽处理
 ```
