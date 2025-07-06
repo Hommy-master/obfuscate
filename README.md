@@ -12,6 +12,12 @@ pnpm start ./demo
 或者
 
 node ./bin/obfuscate.js ./demo
+
+待修改：node ./bin/obfuscate.js ./bmivo.buzz_CdjJM -o . -n 3
+输出：
+./bmivo.buzz_CdjJM_1
+./bmivo.buzz_CdjJM_2
+./bmivo.buzz_CdjJM_3
 ```
 
 # 要求
