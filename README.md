@@ -7,6 +7,10 @@ pnpm install
 # 运行
 
 ```
+pnpm start ./demo
+
+或者
+
 node ./bin/obfuscate.js ./demo
 ```
 
