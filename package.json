@@ -13,7 +13,6 @@
     "buffer": "^6.0.3",
     "cheerio": "^1.1.0",
     "commander": "^14.0.0",
-    "crypto": "^1.0.1",
     "css": "^3.0.0",
     "cssnano": "^7.0.7",
     "fs-extra": "^11.3.0",
@@ -29,19 +28,22 @@
   },
   "scripts": {
     "start": "node ./bin/obfuscate.js",
-    "build": "pkg . --out-path dist --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
-    "build:linux": "pkg . --out-path dist --target node18-linux-x64",
-    "build:macos": "pkg . --out-path dist --target node18-macos-x64",
-    "build:win": "pkg . --out-path dist --target node18-win-x64"
+    "build": "pnpm run build:linux && pnpm run build:macos-x64 && pnpm run build:macos-arm64 && pnpm run build:win",
+    "build:linux": "pkg . --out-path dist --target node18-linux-x64 --output dist/obfuscate-linux-x64",
+    "build:macos-x64": "pkg . --out-path dist --target node18-macos-x64 --output dist/obfuscate-macos-x64",
+    "build:macos-arm64": "pkg . --out-path dist --target node18-macos-arm64 --output dist/obfuscate-macos-arm64",
+    "build:win": "pkg . --out-path dist --target node18-win-x64 --output dist/obfuscate-win-x64.exe",
+    "clean": "rm -rf dist/"
   },
   "pkg": {
     "assets": [
-      "node_modules/@babel/**/*",
-      "node_modules/cssnano/**/*",
-      "node_modules/postcss/**/*",
-      "node_modules/javascript-obfuscator/**/*",
-      "node_modules/cheerio/**/*",
-      "node_modules/node-html-parser/**/*"
+      "node_modules/@babel/preset-typescript/**/*",
+      "node_modules/@babel/plugin-transform-typescript/**/*",
+      "node_modules/cssnano/dist/**/*",
+      "node_modules/postcss/lib/**/*",
+      "node_modules/javascript-obfuscator/dist/**/*",
+      "node_modules/cheerio/lib/**/*",
+      "node_modules/node-html-parser/dist/**/*"
     ],
     "scripts": [
       "bin/**/*.js"
