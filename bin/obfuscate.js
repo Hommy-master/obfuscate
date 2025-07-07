@@ -24,11 +24,7 @@ for (let i = 1; i < args.length; i++) {
     const arg = args[i];
     const argNext = args[i + 1];
     if (arg === '-o' && argNext) {
-        // 创建输出目录（如果不存在）
-        if (!fs.existsSync(argNext)) {
-            fs.mkdirSync(argNext, { recursive: true });
-        }
-        outputDir = path.resolve(argNext);
+        outputDir = argNext;
         i++;
     } else if (arg === '-n' && argNext) {
         outCount = +argNext;
