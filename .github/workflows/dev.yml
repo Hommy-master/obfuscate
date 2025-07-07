@@ -73,8 +73,8 @@ jobs:
 
       - name: 清理缓存文件
         run: |
-          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/1_*"
-          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/2_*"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/1_*"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/2_*"
           sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/3_*"
 
       - name: 执行测试
