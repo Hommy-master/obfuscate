@@ -12,6 +12,11 @@ if (!args.length) {
 
 // 解析为绝对路径
 const targetDir = path.resolve(args[0]);
+if (!fs.existsSync(targetDir)) {
+    console.error('目标目录不存在:', targetDir);
+    process.exit(1);
+}
+
 // 初始化输出目录和输出数量
 let outputDir = '.';
 let outCount = 1;
