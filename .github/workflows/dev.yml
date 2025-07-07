@@ -26,18 +26,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'pnpm'  # 自动缓存 pnpm 依赖
-
       - name: 安装依赖
         run: pnpm install
 
-      # 添加缓存清理步骤
       - name: 缓存清理
         run: pnpm run clean || true
-
-      # 确保 dist 目录存在
-      - name: 创建dist目录
-        run: mkdir -p dist
 
       - name: 编译
         run: pnpm run build

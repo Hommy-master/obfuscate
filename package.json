@@ -23,33 +23,12 @@
     "shorthash": "^0.0.2",
     "shuffle-array": "^1.0.1"
   },
-  "devDependencies": {
-    "pkg": "^5.8.1"
-  },
   "scripts": {
     "start": "node ./bin/obfuscate.js",
-    "build": "pnpm run build:linux && pnpm run build:macos-x64 && pnpm run build:macos-arm64 && pnpm run build:win",
-    "build:linux": "pkg . --target node18-linux-x64 --output dist/obfuscate-linux-x64",
-    "build:macos-x64": "pkg . --target node18-macos-x64 --output dist/obfuscate-macos-x64",
-    "build:macos-arm64": "pkg . --target node18-macos-arm64 --output dist/obfuscate-macos-arm64",
-    "build:win": "pkg . --target node18-win-x64 --output dist/obfuscate-win-x64.exe",
-    "clean": "rm -rf dist/"
+    "build": "ncc build bin/obfuscate.js -o dist --minify",
+    "clean": "rm -rf dist"
   },
-  "pkg": {
-    "assets": [
-      "node_modules/@babel/preset-typescript/**/*",
-      "node_modules/@babel/plugin-transform-typescript/**/*",
-      "node_modules/cssnano/dist/**/*",
-      "node_modules/postcss/lib/**/*",
-      "node_modules/javascript-obfuscator/dist/**/*",
-      "node_modules/cheerio/lib/**/*",
-      "node_modules/node-html-parser/dist/**/*"
-    ],
-    "scripts": [
-      "bin/**/*.js"
-    ],
-    "noParse": [
-      "node:sqlite"
-    ]
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.0"
   }
 }
