@@ -13,7 +13,6 @@
     "buffer": "^6.0.3",
     "cheerio": "^1.1.0",
     "commander": "^14.0.0",
-    "crypto": "^1.0.1",
     "css": "^3.0.0",
     "cssnano": "^7.0.7",
     "fs-extra": "^11.3.0",
@@ -24,27 +23,12 @@
     "shorthash": "^0.0.2",
     "shuffle-array": "^1.0.1"
   },
-  "devDependencies": {
-    "pkg": "^5.8.1"
-  },
   "scripts": {
     "start": "node ./bin/obfuscate.js",
-    "build": "pkg . --out-path dist --targets node18-linux-x64,node18-macos-x64,node18-win-x64",
-    "build:linux": "pkg . --out-path dist --target node18-linux-x64",
-    "build:macos": "pkg . --out-path dist --target node18-macos-x64",
-    "build:win": "pkg . --out-path dist --target node18-win-x64"
+    "build": "ncc build bin/obfuscate.js -o dist --minify",
+    "clean": "rm -rf dist"
   },
-  "pkg": {
-    "assets": [
-      "node_modules/@babel/**/*",
-      "node_modules/cssnano/**/*",
-      "node_modules/postcss/**/*",
-      "node_modules/javascript-obfuscator/**/*",
-      "node_modules/cheerio/**/*",
-      "node_modules/node-html-parser/**/*"
-    ],
-    "scripts": [
-      "bin/**/*.js"
-    ]
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.0"
   }
 }

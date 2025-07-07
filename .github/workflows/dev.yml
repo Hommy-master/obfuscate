@@ -16,29 +16,55 @@ jobs:
         uses: actions/checkout@v3
 
       # 先安装 pnpm
-      - name: Install pnpm
+      - name: 安装 pnpm
         uses: pnpm/action-setup@v4.1.0
         with:
           version: 10   # 明确指定 pnpm 大版本 (推荐)
 
       # 再设置 Node.js 环境
-      - name: Set up Node.js
+      - name: 设置node js环境
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'pnpm'  # 自动缓存 pnpm 依赖
 
-      # 安装依赖
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: 安装依赖
+        run: pnpm install
 
-      # 编译
-      - name: Build Project
+      - name: 缓存清理
+        run: pnpm run clean || true
+
+      - name: 编译
         run: pnpm run build
 
       - name: 检查编译结果
         run: ls -lhR ./dist
 
+      - name: 打包前准备
+        run: |
+          mkdir -p PACKAGE/app/bin
+          mkdir -p PACKAGE/app/etc
+          cp -rf ./dist/* PACKAGE/app/bin/
+          # 写入commit hash到文件中
+          echo "${{ github.sha }}" > PACKAGE/app/etc/commit_hash
+
+      - name: 打包docker镜像
+        run: docker build . --tag obfuscate:${{ github.sha }}
+
+      - name: 登录到阿里云容器镜像服务器
+        run: echo "${{ secrets.ALIYUN_ACR_PASSWORD }}" | docker login -u ${{ secrets.ALIYUN_ACR_USERNAME }} --password-stdin crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com
+      
+      - name: 给docker镜像打latest的tag
+        run: docker tag obfuscate:${{ github.sha }} crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:latest
+      
+      - name: 推送docker镜像到阿里云容器镜像服务器
+        run: docker push crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:latest
+
+      - name: 给docker镜像打commit hash的tag
+        run: docker tag obfuscate:${{ github.sha }} crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:${{ github.sha }}
+      
+      - name: 推送docker镜像到阿里云容器镜像服务器
+        run: docker push crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:${{ github.sha }}
+      
   notify:
     name: Send Notify
     runs-on: ubuntu-latest
