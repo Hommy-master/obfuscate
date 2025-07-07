@@ -65,6 +65,24 @@ jobs:
       - name: 推送docker镜像到阿里云容器镜像服务器
         run: docker push crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:${{ github.sha }}
       
+      # 安装sshpass
+      - name: Install sshpass
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+
+      - name: 清理缓存文件
+        run: |
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/1_*"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/2_*"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "rm -rf /www/wwwroot/obf.jcaigc.cn/3_*"
+
+      - name: 执行测试
+        run: |
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "cd /usr/local/app/obf.jcaigc.cn && docker-compose pull && cd -"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "docker run -v /www/wwwroot/obf.jcaigc.cn:/app/output --rm crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:latest node /app/bin/index.js /app/output/1 -o /app/output/"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "docker run -v /www/wwwroot/obf.jcaigc.cn:/app/output --rm crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:latest node /app/bin/index.js /app/output/2 -o /app/output/"
+          sshpass -p ${{ secrets.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no -p 22 root@$101.33.206.119 "docker run -v /www/wwwroot/obf.jcaigc.cn:/app/output --rm crpi-70qzhn1dtv3eo91r.cn-hangzhou.personal.cr.aliyuncs.com/taohongmin/obfuscate:latest node /app/bin/index.js /app/output/3 -o /app/output/"
   notify:
     name: Send Notify
     runs-on: ubuntu-latest
