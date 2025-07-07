@@ -30,7 +30,7 @@ jobs:
 
       # 安装依赖
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       # 编译
       - name: Build Project
