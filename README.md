@@ -77,6 +77,9 @@ node ./bin/obfuscate.js ./demo -o . -n 3
 
 # 或者使用 npm script
 npm start ./demo
+
+# 或者运行pnpm build，打包生成dist
+node ./dist/index.js ./demo
 ```
 
 ## 混淆流程
