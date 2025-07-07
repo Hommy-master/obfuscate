@@ -29,10 +29,10 @@
   "scripts": {
     "start": "node ./bin/obfuscate.js",
     "build": "pnpm run build:linux && pnpm run build:macos-x64 && pnpm run build:macos-arm64 && pnpm run build:win",
-    "build:linux": "pkg . --out-path dist --target node18-linux-x64 --output dist/obfuscate-linux-x64",
-    "build:macos-x64": "pkg . --out-path dist --target node18-macos-x64 --output dist/obfuscate-macos-x64",
-    "build:macos-arm64": "pkg . --out-path dist --target node18-macos-arm64 --output dist/obfuscate-macos-arm64",
-    "build:win": "pkg . --out-path dist --target node18-win-x64 --output dist/obfuscate-win-x64.exe",
+    "build:linux": "pkg . --target node18-linux-x64 --output dist/obfuscate-linux-x64",
+    "build:macos-x64": "pkg . --target node18-macos-x64 --output dist/obfuscate-macos-x64",
+    "build:macos-arm64": "pkg . --target node18-macos-arm64 --output dist/obfuscate-macos-arm64",
+    "build:win": "pkg . --target node18-win-x64 --output dist/obfuscate-win-x64.exe",
     "clean": "rm -rf dist/"
   },
   "pkg": {
