@@ -1,6 +1,6 @@
 {
-  "name": "obfuscator",
-  "version": "1.0.0",
+  "name": "advanced-obfuscator",
+  "version": "2.1.3",
   "bin": "./bin/obfuscate.js",
   "dependencies": {
     "@babel/core": "^7.28.0",
