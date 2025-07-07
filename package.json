@@ -47,6 +47,9 @@
     ],
     "scripts": [
       "bin/**/*.js"
+    ],
+    "noParse": [
+      "node:sqlite"
     ]
   }
 }
