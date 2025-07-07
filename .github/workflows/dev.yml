@@ -1,0 +1,63 @@
+name: Build And Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build And Deploy WebUI
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 先安装 pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.1.0
+        with:
+          version: 10   # 明确指定 pnpm 大版本 (推荐)
+
+      # 再设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'pnpm'  # 自动缓存 pnpm 依赖
+
+      # 安装依赖
+      - name: Install dependencies
+        run: pnpm install
+
+      # 编译
+      - name: Build Project
+        run: pnpm run build
+
+      - name: 检查编译结果
+        run: ls -lhR ./dist
+
+  notify:
+    name: Send Notify
+    runs-on: ubuntu-latest
+    needs: build
+    if: always()  # 无论工作流是成功还是失败都发送邮件
+    steps:
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.qq.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: ${{ github.repository }} 打包结果：${{ needs.build.result }}
+          body: |           
+            Workflow: ${{ github.workflow }}
+            Repository: ${{ github.repository }}
+            Build Result: ${{ needs.build.result }}
+            GitHub Sha: ${{ github.sha }}
+            GitHub Release: ${{ github.ref_name }}
+          to: taohongmin@sina.cn
+          from: 229566369@qq.com
